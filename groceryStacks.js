@@ -1,54 +1,48 @@
-const readline = require('readline');
+let groceryStack = [];
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
-let stack = [];
-let itemIndex = 0;
-
-function peek() {
-    return stack.length > 0 ? stack[stack.length - 1] : "Stack is empty";
+function peek () {
+  if (groceryStack.length === 0) {
+    alert("The stack is empty.");
+  } else {
+    alert("Top item in the stack: " + groceryStack.length - 1);
+  }
 }
 
-// Push function to add item to stack
-function push(item) {
-    stack.push(item);
-    console.log(`Added "${item}" to the stack.`);
-    console.log("Current Stack: ", stack.join(", "));
+function push() {
+  let item = prompt("Enter a grocery item to add:");
+  if (item) {
+    groceryStack.push(item);
+    console.log("Item added: " + item);
+    console.log("Update Stack: ", grocryStack);
+    alert("Item added: " + item + "\nUpdated Stack: " + groceryStack.join(", "));
+  } else {
+    alert("No item entered. Please try again.");
+  }
 }
 
-// Pop function to remove last added item
 function pop() {
-    if (stack.length === 0) {
-        console.log("Stack is empty. Cannot remove an item.");
+  if (groceryStack.length === 0) {
+    alert("The stack is empty. No item to remove.");
+  } else {
+    const removedItem = groceryStack.pop();
+    console.log("Item removed: " + removedItem);
+    console.log("Updated Stack:", groceryStack);
+    alert("Item removed: " + removedItem + "\nUpdated Stack: " + groceryStack.join(", "));
+  }
+}
+
+function main() {
+  for (let i = 0; i < 5; i++) {
+    let item = prompt('Enter grocery item ${i + 1}:');
+    if (item) {
+      groceryStack.push(item);
+      console.log("Item added: " + item);
     } else {
-        let removedItem = stack.pop();
-        console.log(`Removed "${removedItem}" from the stack.`);
-    }
-    console.log("Current Stack: ", stack.join(", "));
+      alert("NO item entered. Please try again.");
+      i--;
+  }
 }
 
-// Function to ask for grocery items
-function askForGroceryItem() {
-    if (itemIndex < 5) {
-        rl.question(`Enter grocery item ${itemIndex + 1}: `, (input) => {
-            push(input);
-            itemIndex++;
-            askForGroceryItem();
-        });
-    } else {
-        performStackOperations();
-    }
+alert("Initial Stack: " + groceryStack.join(", "));
+console.log("Initial Stack:", groceryStack);
 }
-
-// Function to demonstrate stack operations
-function performStackOperations() {
-    console.log("Peek at top item: ", peek());
-    pop();
-    console.log("Peek at top item after popping: ", peek());
-    rl.close();
-}
-
-askForGroceryItem();
